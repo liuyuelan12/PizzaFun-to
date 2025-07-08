@@ -82,6 +82,91 @@ function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
   )
 }
 
+// 磁性按钮效果组件
+function MagneticButton({ children, className = "", ...props }: any) {
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!buttonRef.current) return
+    const rect = buttonRef.current.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    const deltaX = (e.clientX - centerX) * 0.15
+    const deltaY = (e.clientY - centerY) * 0.15
+    setPosition({ x: deltaX, y: deltaY })
+  }
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 })
+  }
+
+  return (
+    <motion.div
+      ref={buttonRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className={className}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+// 文字逐字显示动画组件
+function AnimatedText({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
+  return (
+    <motion.div className={className}>
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={index}
+          initial={{ opacity: 0, y: 50, rotateX: -90 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{
+            duration: 0.8,
+            delay: delay + index * 0.05,
+            ease: [0.6, -0.05, 0.01, 0.99],
+          }}
+          className="inline-block"
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </motion.div>
+  )
+}
+
+// 鼠标跟随光标效果
+function MouseFollower() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener("mousemove", updateMousePosition)
+    return () => window.removeEventListener("mousemove", updateMousePosition)
+  }, [])
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 w-6 h-6 bg-orange-500/30 rounded-full pointer-events-none z-50 mix-blend-difference"
+      animate={{
+        x: mousePosition.x - 12,
+        y: mousePosition.y - 12,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 500,
+        damping: 28,
+      }}
+    />
+  )
+}
+
 // 波浪动画组件
 function WaveAnimation() {
   return (
@@ -138,17 +223,26 @@ function PulseRing({ size = 100, color = "#FF9325" }: { size?: number; color?: s
 function FloatingParticles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(50)].map((_, i) => (
+      {[...Array(30)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 bg-orange-500/30 rounded-full"
+          className="absolute rounded-full"
+          style={{
+            width: Math.random() * 4 + 1,
+            height: Math.random() * 4 + 1,
+            background: `radial-gradient(circle, ${
+              Math.random() > 0.5 ? "rgba(255,147,37,0.6)" : "rgba(147,51,234,0.4)"
+            }, transparent)`,
+          }}
           initial={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+            y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+            scale: 0,
           }}
           animate={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+            y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+            scale: [0, 1, 0],
           }}
           transition={{
             duration: Math.random() * 20 + 10,
@@ -222,8 +316,9 @@ function HolographicCard({ children, className = "" }: { children: React.ReactNo
   const cardRef = useRef<HTMLDivElement>(null)
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [10, -10]))
-  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-10, 10]))
+  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [15, -15]))
+  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-15, 15]))
+  const scale = useSpring(1)
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return
@@ -232,24 +327,51 @@ function HolographicCard({ children, className = "" }: { children: React.ReactNo
     const centerY = rect.top + rect.height / 2
     mouseX.set(e.clientX - centerX)
     mouseY.set(e.clientY - centerY)
+    scale.set(1.05)
   }
 
   const handleMouseLeave = () => {
     mouseX.set(0)
     mouseY.set(0)
+    scale.set(1)
   }
 
   return (
     <motion.div
       ref={cardRef}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      style={{
+        rotateX,
+        rotateY,
+        scale,
+        transformStyle: "preserve-3d",
+      }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={`relative transform-gpu ${className}`}
+      whileHover={{ z: 50 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-purple-500/20 rounded-lg blur-xl" />
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-purple-500/20 rounded-lg blur-xl"
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.5, 0.8, 0.5],
+        }}
+        transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+      />
       <div className="relative bg-black/80 backdrop-blur-xl border border-orange-500/30 rounded-lg overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-purple-500/10" />
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-purple-500/10"
+          animate={{
+            background: [
+              "linear-gradient(45deg, rgba(255,147,37,0.1), transparent, rgba(147,51,234,0.1))",
+              "linear-gradient(135deg, rgba(147,51,234,0.1), transparent, rgba(255,147,37,0.1))",
+              "linear-gradient(225deg, rgba(255,147,37,0.1), transparent, rgba(147,51,234,0.1))",
+              "linear-gradient(315deg, rgba(147,51,234,0.1), transparent, rgba(255,147,37,0.1))",
+            ],
+          }}
+          transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
+        />
         {children}
       </div>
     </motion.div>
@@ -286,6 +408,9 @@ export default function PizzaFunLanding() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
+      {/* 鼠标跟随光标 */}
+      <MouseFollower />
+
       {/* Animated grid background */}
       <GridBackground />
 
@@ -386,12 +511,16 @@ export default function PizzaFunLanding() {
             </motion.div>
 
             <motion.h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight" variants={fadeInUp}>
-              <span className="block bg-gradient-to-r from-white via-orange-500 to-white bg-clip-text text-transparent">
-                <TypewriterText text="BITCOIN TRADING" delay={500} />
-              </span>
-              <span className="block bg-gradient-to-r from-orange-500 via-orange-300 to-orange-500 bg-clip-text text-transparent">
-                <TypewriterText text="REDEFINED" delay={2000} />
-              </span>
+              <AnimatedText
+                text="BITCOIN TRADING"
+                className="block bg-gradient-to-r from-white via-orange-500 to-white bg-clip-text text-transparent"
+                delay={0.5}
+              />
+              <AnimatedText
+                text="REDEFINED"
+                className="block bg-gradient-to-r from-orange-500 via-orange-300 to-orange-500 bg-clip-text text-transparent"
+                delay={2}
+              />
               <motion.div
                 className="inline-block ml-4"
                 animate={{
@@ -451,7 +580,7 @@ export default function PizzaFunLanding() {
 
             {/* Cyber CTAs */}
             <motion.div className="flex flex-col sm:flex-row gap-6 justify-center items-center" variants={fadeInUp}>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <MagneticButton>
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-lg px-12 py-6 font-mono relative overflow-hidden group"
@@ -476,15 +605,17 @@ export default function PizzaFunLanding() {
                   INITIALIZE TRADING
                   <ChevronRight className="ml-3 w-5 h-5" />
                 </Button>
-              </motion.div>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-orange-500/50 text-orange-500 hover:bg-orange-500/20 text-lg px-12 py-6 bg-transparent backdrop-blur-sm font-mono"
-              >
-                <Play className="mr-3 w-5 h-5" />
-                SYSTEM DEMO
-              </Button>
+              </MagneticButton>
+              <MagneticButton>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-orange-500/50 text-orange-500 hover:bg-orange-500/20 text-lg px-12 py-6 bg-transparent backdrop-blur-sm font-mono"
+                >
+                  <Play className="mr-3 w-5 h-5" />
+                  SYSTEM DEMO
+                </Button>
+              </MagneticButton>
             </motion.div>
           </motion.div>
         </div>
@@ -901,7 +1032,7 @@ export default function PizzaFunLanding() {
             </motion.p>
 
             <motion.div className="flex flex-col sm:flex-row gap-6 justify-center items-center" variants={fadeInUp}>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <MagneticButton>
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-xl px-16 py-8 font-mono relative overflow-hidden group"
@@ -911,16 +1042,18 @@ export default function PizzaFunLanding() {
                   LAUNCH PROTOCOL
                   <ChevronRight className="ml-3 w-6 h-6" />
                 </Button>
-              </motion.div>
+              </MagneticButton>
 
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-orange-500/50 text-orange-500 hover:bg-orange-500/20 text-xl px-16 py-8 bg-transparent backdrop-blur-sm font-mono"
-              >
-                <Download className="mr-3 w-6 h-6" />
-                ACCESS TOKENS
-              </Button>
+              <MagneticButton>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-orange-500/50 text-orange-500 hover:bg-orange-500/20 text-xl px-16 py-8 bg-transparent backdrop-blur-sm font-mono"
+                >
+                  <Download className="mr-3 w-6 h-6" />
+                  ACCESS TOKENS
+                </Button>
+              </MagneticButton>
             </motion.div>
           </motion.div>
         </div>
