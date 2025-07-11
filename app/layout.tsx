@@ -10,22 +10,22 @@ export const metadata: Metadata = {
   description:
     "Next-generation Bitcoin token trading protocol with 2-second confirmations, zero gas fees, and military-grade security.",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
   openGraph: {
     title: "PizzaFun",
     description:
       "Next-generation Bitcoin token trading protocol with 2-second confirmations, zero gas fees, and military-grade security.",
-    images: ["/favicon.png"],
+    images: ["/favicon.svg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "PizzaFun",
     description:
       "Next-generation Bitcoin token trading protocol with 2-second confirmations, zero gas fees, and military-grade security.",
-    images: ["/favicon.png"],
+    images: ["/favicon.svg"],
   },
     generator: 'v0.dev'
 }

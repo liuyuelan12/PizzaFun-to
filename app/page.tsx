@@ -431,8 +431,8 @@ export default function PizzaFunLanding() {
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-orange-500 rounded-full blur-md opacity-50" />
-                <div className="relative w-10 h-10 flex items-center justify-center">
-                  <img src="/images/pizzafun-logo.svg" alt="PizzaFun Logo" className="w-10 h-10 object-contain" />
+                <div className="relative w-24 h-24 flex items-center justify-center">
+                  <img src="/images/pizzafun-logo.svg" alt="PizzaFun Logo" className="w-24 h-24 object-contain" />
                 </div>
               </div>
               <div>
@@ -1070,8 +1070,8 @@ export default function PizzaFunLanding() {
               <div className="flex items-center space-x-3 mb-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-orange-500 rounded-full blur-md opacity-50" />
-                  <div className="relative w-10 h-10 flex items-center justify-center">
-                    <img src="/images/pizzafun-logo.svg" alt="PizzaFun Logo" className="w-10 h-10 object-contain" />
+                  <div className="relative w-24 h-24 flex items-center justify-center">
+                    <img src="/images/pizzafun-logo.svg" alt="PizzaFun Logo" className="w-24 h-24 object-contain" />
                   </div>
                 </div>
                 <div>
