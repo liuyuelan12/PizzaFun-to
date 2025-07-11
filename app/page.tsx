@@ -10,8 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import {
   Zap,
   Shield,
-  Github,
-  Twitter,
+  BookOpen,
+  XIcon,
   MessageCircle,
   Play,
   Download,
@@ -1087,9 +1087,9 @@ export default function PizzaFunLanding() {
               </p>
               <div className="flex space-x-4">
                 {[
-                  { icon: <Twitter />, href: "#" },
-                  { icon: <MessageCircle />, href: "#" },
-                  { icon: <Github />, href: "#" },
+                  { icon: <XIcon />, href: "https://x.com/PizzaFun_" },
+                  { icon: <MessageCircle />, href: "https://t.me/PizzaFuncc" },
+                  { icon: <BookOpen />, href: "https://pizzafun.gitbook.io/pizzafun/" },
                 ].map((social, index) => (
                   <motion.div
                     key={index}
@@ -1102,6 +1102,8 @@ export default function PizzaFunLanding() {
                   >
                     <Link
                       href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-10 h-10 bg-orange-500/20 border border-orange-500/30 rounded-lg flex items-center justify-center text-orange-500 hover:bg-orange-500/30 transition-colors"
                     >
                       {social.icon}
@@ -1115,27 +1117,43 @@ export default function PizzaFunLanding() {
             {[
               {
                 title: "PROTOCOL",
-                links: ["Features", "Technology", "Security", "Documentation"],
+                links: [
+                  { name: "Features", href: "#" },
+                  { name: "Technology", href: "#" },
+                  { name: "Security", href: "#" },
+                  { name: "Documentation", href: "https://pizzafun.gitbook.io/pizzafun/" },
+                ],
               },
               {
                 title: "COMMUNITY",
-                links: ["Discord", "Twitter", "Telegram", "GitHub"],
+                links: [
+                  { name: "X (Twitter)", href: "https://x.com/PizzaFun_" },
+                  { name: "Telegram", href: "https://t.me/PizzaFuncc" },
+                ],
               },
               {
                 title: "RESOURCES",
-                links: ["Whitepaper", "API Docs", "Blog", "Support"],
+                links: [
+                  { name: "Whitepaper", href: "https://pizzafun.gitbook.io/pizzafun/" },
+                  { name: "API Docs", href: "#" },
+                  { name: "Blog", href: "#" },
+                  { name: "Support", href: "#" },
+                  { name: "Documentation", href: "https://pizzafun.gitbook.io/pizzafun/" },
+                ],
               },
             ].map((section, index) => (
               <div key={index}>
                 <h3 className="font-bold mb-4 text-orange-500 font-mono">{section.title}</h3>
                 <ul className="space-y-2">
                   {section.links.map((link) => (
-                    <li key={link}>
+                    <li key={typeof link === "string" ? link : link.name}>
                       <Link
-                        href="#"
+                        href={typeof link === "string" ? "#" : link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-gray-400 hover:text-orange-500 transition-colors font-mono text-sm"
                       >
-                        {link}
+                        {typeof link === "string" ? link : link.name}
                       </Link>
                     </li>
                   ))}
