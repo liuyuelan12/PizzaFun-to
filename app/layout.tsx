@@ -1,20 +1,43 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: "PizzaFun",
+  description:
+    "Next-generation Bitcoin token trading protocol with 2-second confirmations, zero gas fees, and military-grade security.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  openGraph: {
+    title: "PizzaFun",
+    description:
+      "Next-generation Bitcoin token trading protocol with 2-second confirmations, zero gas fees, and military-grade security.",
+    images: ["/favicon.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PizzaFun",
+    description:
+      "Next-generation Bitcoin token trading protocol with 2-second confirmations, zero gas fees, and military-grade security.",
+    images: ["/favicon.png"],
+  },
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }

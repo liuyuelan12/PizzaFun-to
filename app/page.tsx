@@ -431,15 +431,14 @@ export default function PizzaFunLanding() {
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-orange-500 rounded-full blur-md opacity-50" />
-                <div className="relative w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
-                  <span className="text-lg">🍕</span>
+                <div className="relative w-10 h-10 flex items-center justify-center">
+                  <img src="/images/pizzafun-logo.svg" alt="PizzaFun Logo" className="w-10 h-10 object-contain" />
                 </div>
               </div>
               <div>
                 <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
                   PizzaFun
                 </span>
-                <div className="text-xs text-orange-500/70 font-mono">v2.0.1</div>
               </div>
             </motion.div>
 
@@ -465,13 +464,15 @@ export default function PizzaFunLanding() {
 
             {/* Cyber CTA buttons */}
             <div className="hidden md:flex items-center space-x-4">
-              <Button
-                variant="outline"
-                className="border-orange-500/50 text-orange-500 hover:bg-orange-500/20 bg-transparent backdrop-blur-sm font-mono"
-              >
-                <Code className="mr-2 w-4 h-4" />
-                Whitepaper
-              </Button>
+              <Link href="https://pizzafun.gitbook.io/pizzafun/" target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  className="border-orange-500/50 text-orange-500 hover:bg-orange-500/20 bg-transparent backdrop-blur-sm font-mono"
+                >
+                  <Code className="mr-2 w-4 h-4" />
+                  Whitepaper
+                </Button>
+              </Link>
               <motion.div variants={glowVariants} initial="initial" animate="animate">
                 <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 font-mono relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-100%] animate-[shimmer_2s_infinite]" />
@@ -1069,15 +1070,14 @@ export default function PizzaFunLanding() {
               <div className="flex items-center space-x-3 mb-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-orange-500 rounded-full blur-md opacity-50" />
-                  <div className="relative w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
-                    <span className="text-lg">🍕</span>
+                  <div className="relative w-10 h-10 flex items-center justify-center">
+                    <img src="/images/pizzafun-logo.svg" alt="PizzaFun Logo" className="w-10 h-10 object-contain" />
                   </div>
                 </div>
                 <div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
                     PizzaFun
                   </span>
-                  <div className="text-xs text-orange-500/70 font-mono">PROTOCOL v2.0</div>
                 </div>
               </div>
               <p className="text-gray-400 mb-6 font-mono text-sm">
