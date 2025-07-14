@@ -23,9 +23,8 @@ import {
   Code,
   Database,
   Network,
-  Sparkles,
 } from "lucide-react"
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis, Area, AreaChart } from "recharts"
+import { ResponsiveContainer, Tooltip, XAxis, YAxis, Area, AreaChart } from "recharts"
 import Link from "next/link"
 
 // Animation variants
@@ -393,19 +392,6 @@ export default function PizzaFunLanding() {
     { name: "600s", traditional: 100, pizzafun: 100 },
   ]
 
-  // Tokenomics data with futuristic colors
-  const tokenomicsData = [
-    { name: "Ecosystem Development", value: 30, color: "#FF9325" },
-    { name: "Trading Mining", value: 15, color: "#00D4FF" },
-    { name: "Founding Team", value: 14, color: "#9D4EDD" },
-    { name: "Private Rounds", value: 10, color: "#06FFA5" },
-    { name: "Liquidity Pool", value: 10, color: "#FF006E" },
-    { name: "Marketing", value: 6, color: "#FB8500" },
-    { name: "Advisors", value: 5, color: "#8ECAE6" },
-    { name: "Reserve", value: 5, color: "#FFB3BA" },
-    { name: "Airdrops", value: 5, color: "#BAFFC9" },
-  ]
-
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
       {/* 鼠标跟随光标 */}
@@ -444,7 +430,7 @@ export default function PizzaFunLanding() {
 
             {/* Futuristic navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              {["Features", "Technology", "Tokenomics", "Roadmap", "Community"].map((item, index) => (
+              {["Features", "Technology", "Roadmap", "Community"].map((item, index) => (
                 <motion.div
                   key={item}
                   initial={{ opacity: 0, y: -20 }}
@@ -783,101 +769,6 @@ export default function PizzaFunLanding() {
                       <div className="text-2xl font-bold text-white font-mono">{item.value}</div>
                     </motion.div>
                   ))}
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Futuristic Tokenomics */}
-      <section id="tokenomics" className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-orange-500/5 to-purple-500/5" />
-        <div className="container mx-auto px-4 relative">
-          <motion.div initial="initial" whileInView="animate" viewport={{ once: true }} variants={staggerContainer}>
-            <motion.div className="text-center mb-16" variants={fadeInUp}>
-              <div className="inline-block px-4 py-2 bg-orange-500/20 border border-orange-500/30 rounded-full mb-6">
-                <span className="text-orange-500 font-mono text-sm">TOKEN ECONOMICS</span>
-              </div>
-              <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-white to-orange-500 bg-clip-text text-transparent">
-                $PIZZA DISTRIBUTION
-              </h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <motion.div variants={fadeInUp}>
-                <HolographicCard>
-                  <CardContent className="p-8">
-                    <div className="h-96">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={tokenomicsData}
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={120}
-                            fill="#8884d8"
-                            dataKey="value"
-                            label={({ name, value }) => `${value}%`}
-                          >
-                            {tokenomicsData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
-                            ))}
-                          </Pie>
-                          <Tooltip
-                            contentStyle={{
-                              backgroundColor: "rgba(0,0,0,0.9)",
-                              border: "1px solid #FF9325",
-                              borderRadius: "8px",
-                              fontFamily: "monospace",
-                            }}
-                          />
-                        </PieChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </CardContent>
-                </HolographicCard>
-              </motion.div>
-
-              <motion.div variants={fadeInUp}>
-                <div className="space-y-6">
-                  <div className="text-center mb-8">
-                    <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-300 mb-2 font-mono">
-                      210,000,000
-                    </div>
-                    <div className="text-gray-400 font-mono">TOTAL $PIZZA SUPPLY</div>
-                    <div className="text-sm text-orange-500/70 mt-2 font-mono">// Tribute to Bitcoin's 21M × 10</div>
-                  </div>
-
-                  <div className="space-y-3">
-                    {tokenomicsData.slice(0, 5).map((item, index) => (
-                      <motion.div
-                        key={index}
-                        className="flex items-center justify-between p-4 bg-black/50 border border-orange-500/20 rounded-lg backdrop-blur-sm font-mono"
-                        whileHover={{ borderColor: "rgba(255, 147, 37, 0.5)" }}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }} />
-                          <span className="text-gray-300">{item.name}</span>
-                        </div>
-                        <span className="font-bold text-orange-500">{item.value}%</span>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 p-6 bg-gradient-to-r from-orange-500/10 to-purple-500/10 border border-orange-500/30 rounded-lg">
-                    <h4 className="text-lg font-semibold mb-4 text-orange-500 font-mono">TOKEN UTILITIES</h4>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      {["Trading Discounts", "Governance Rights", "Staking Rewards", "Deflationary Burns"].map(
-                        (utility, index) => (
-                          <div key={index} className="flex items-center space-x-2">
-                            <Sparkles className="w-4 h-4 text-orange-500" />
-                            <span className="text-gray-300 font-mono">{utility}</span>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  </div>
                 </div>
               </motion.div>
             </div>
